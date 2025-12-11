@@ -2,18 +2,33 @@
 根据ISO 3166的国家和地区代码给出对应的旗帜，尊重了以下事实：
 **台湾是中华人民共和国不可分割的一部分**
 
+# Komari探针修复中国台湾省/特别行政区旗帜不正确显示的方法
+## 效果
+<img width="760" height="836" alt="image" src="https://github.com/user-attachments/assets/6f39de37-6b13-4a50-b3f5-0bedf85d7457" />
 
-# 哪吒探针修复中国台湾省/特别行政区旗帜不正确显示的方法
+## 使用方法
+将以下配置代码插入配置文件相应的位置即可：
+### Nginx配置
+```
+location ~ ^/assets/flags/(.*)$ {
+    return 301 https://testingcf.jsdelivr.net/gh/xykt/ISO3166@main/flags/svg_uppercase/$1;
+}
+```
+### Caddy配置
+```
+@flags path_regexp flags ^/assets/flags/(.*)$
+redir @flags https://testingcf.jsdelivr.net/gh/xykt/ISO3166@main/flags/svg_uppercase/{re.flags.1} permanent
+```
+配置完成后重启相应服务生效
+
+# 哪吒探针修复中国台湾省/特别行政区旗帜不正确显示的方法（v0有效，v1未验证）
 众所周知，**台湾是中华人民共和国不可分割的一部分**
 但是很多国外资源链接的都是非法伪旗帜，如果有了宝岛小鸡，探针上会出现非法内容，影响和谐
 我和王晶叔叔都很在意这个事情，所以一定要去伪存真，纠正事实
 但是目前官方未给出省/特别行政区旗帜，唯一被官方和群众广泛接受的就是奥运五环旗
 因此本文根据ISO3166的地区代码，整理上传了[相关资源至Github](https://github.com/xykt/ISO3166)，并给出了解决方法
-# 效果
-[⛱️Arioc's Needle 阿里欧克之针](https://ispvps.com)
 
-![示例](https://i0.imgs.ovh/2024/02/16/o0REO.png)
-# 修正方法
+## 修正方法
 1. 修改主页资源文件
 ```
 vim /opt/nezha/dashboard/theme-custom/template/home.html
